@@ -16,6 +16,20 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+class Feedback(db.Model):
+    __tablename__ = 'feedback'
+    id = db.Column(db.Integer, primary_key=True)
+    customer = db.Columns(db.String(200))
+    dealer = db.Columns(db.String(200))
+    rating = db.Columns(db.Integer)
+    comments = db.Columns(db.Text())
+
+    def __init__(self, customer, dealer, rating, comments):
+        self.customer = customer
+        self.dealer = dealer
+        self.rating = rating
+        self.comments = comments
+
 @app.route('/')
 def index():
     return render_template('index.html')
