@@ -10,6 +10,9 @@
 <body>
     <div class="container">
         <img src="../static/logo.png" alt="Logo" class="logo">
+        {% if message %}
+            <p class="message">{{ message | safe }}</p>
+        {% endif %}
         <form action="/submit" method="POST">
             <div class="form-group">
                 <h3>Customer Name</h3>
@@ -42,6 +45,7 @@
                 <h3>Comments about your experience:</h3>
                 <textarea name="comments" id="" cols="30" rows="10" placeholder="Talk about what you liked and/or didn't like!"></textarea>
             </div>
+            <input type="submit" value="Submit" class="btn">
         </form>
     </div>    
 </body>
