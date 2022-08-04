@@ -19,10 +19,10 @@ db = SQLAlchemy(app)
 class Feedback(db.Model):
     __tablename__ = 'feedback'
     id = db.Column(db.Integer, primary_key=True)
-    customer = db.Columns(db.String(200))
-    dealer = db.Columns(db.String(200))
-    rating = db.Columns(db.Integer)
-    comments = db.Columns(db.Text())
+    customer = db.Column(db.String(200))
+    dealer = db.Column(db.String(200))
+    rating = db.Column(db.Integer)
+    comments = db.Column(db.Text())
 
     def __init__(self, customer, dealer, rating, comments):
         self.customer = customer
@@ -44,7 +44,13 @@ def submit():
         #print(customer, dealer, rating, comments)
         if customer == '' or dealer == '':
             return render_template('index.html', message='Please enter required fields!')
-        return render_template('success.html')
+        if db.session.query(Feedback).filter(Feedback.customer == customer).count() == 0:
+            data = Feedback(customer, dealer, rating, comments)
+            db.session.add(data)
+            db.session.commit()
+            return render_template('success.html')
+        return render_template('index.html', message='You have already submitted feedback.')
+
         
 
     return
